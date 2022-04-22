@@ -1,10 +1,12 @@
+# https://prometheus.io/docs/alerting/latest/configuration/
+
 global:
   resolve_timeout: 1m
   smtp_smarthost: 'smtp.gmail.com:587'
-  smtp_from: 'gmail@gmail.com'
-  smtp_auth_username: 'gmail@gmail.com'
-  smtp_auth_password: 'password'
-  slack_api_url: '<hooks slack url>'
+  smtp_from: 'gmail@gmail.com' # SMTP 보낸 사람
+  smtp_auth_username: 'gmail@gmail.com' # gmail id
+  smtp_auth_password: 'password'  # gmail password, 2단계 인증된 경우 앱 비밀번호 발급
+  slack_api_url: '<hooks slack url>' # slack api url
 
 route:
   group_wait: 30s
@@ -51,7 +53,7 @@ receivers:
 
   - name: "email"
     email_configs:
-      - to: "gmail@gmail.com"
+      - to: "gmail@gmail.com"  # 수신 받을 메일
         headers:
           From: "Prometheus"
           Subject: "Monitor Alert"

@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    restart: unless-stopped
+    command:
+      - '--path.rootfs=/host'
+      - '--web.config=/opt/node-config.yml'
+    network_mode: host
+    pid: host
+    volumes:
+      - '/:/host:ro,rslave'
+      - ./config:/opt/

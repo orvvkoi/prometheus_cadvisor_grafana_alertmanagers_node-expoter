@@ -1,0 +1,63 @@
+version: "3"
+
+services:
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    hostname: prometheus
+    restart: always
+    expose:
+      - 9090
+    links:
+      - cadvisor:cadvisor
+      - alertmanagers:alertmanagers
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus/rules:/etc/prometheus/rules
+      - ./prometheus/keys:/etc/prometheus/keys
+    networks:
+      - monitoring
+  cadvisor:
+    image: google/cadvisor:latest
+    container_name: cadvisor
+    restart: always
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    expose:
+      - 8080
+    networks:
+      - monitoring
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: always
+    links:
+      - prometheus:prometheus
+      - cadvisor:cadvisor
+    ports:
+      - "3100:3000"
+    volumes:
+      - ./grafana/config:/var/lib/grafana
+    depends_on:
+      - prometheus
+    networks:
+      - monitoring
+  alertmanagers:
+    image: prom/alertmanager
+    container_name: alertmanager
+    user: root
+    expose:
+      - 9093
+    volumes:
+      - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+      - ./alertmanager/templates:/etc/alertmanager/templates
+    networks:
+      - monitoring
+    restart: always
+networks:
+  monitoring:
+    driver: bridge

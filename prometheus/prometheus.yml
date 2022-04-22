@@ -1,0 +1,72 @@
+global:
+  scrape_interval: 15s
+  scrape_timeout: 15s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: 'monitoring'
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ['alertmanagers:9093']
+
+rule_files:
+  - "./rules/node_down.yml"
+  - "./rules/memory_over.yml"
+  - "./rules/disk_over.yml"
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'job-cadvisor'
+    static_configs:
+      - targets: ['cadvisor:8080']
+
+  - job_name: 'job-server1'
+    scrape_interval: 8s
+    basic_auth:
+      username: "prometheus"
+      password: "6AzpMCb8wQaZ9N"
+    tls_config:
+      insecure_skip_verify: true
+      ca_file: ./keys/server1.crt
+    scheme: https
+    static_configs:
+      - targets: ['111.111.111.111:9100']
+        labels:
+          group: "server"
+          nodename: "server1-instance"
+
+  - job_name: 'job-server2'
+    scrape_interval: 8s
+    basic_auth:
+      username: "prometheus"
+      password: "gvevFR8EdHCam5"
+    tls_config:
+      insecure_skip_verify: true
+      ca_file: ./keys/server2.crt
+    scheme: https
+    static_configs:
+      - targets: ['111.111.111.112:9100']
+        labels:
+          group: "server"
+          nodename: "server2-instance"
+
+  - job_name: 'job-server3'
+    scrape_interval: 8s
+    basic_auth:
+      username: "prometheus"
+      password: "zHXBwzjUrav3Hk"
+    tls_config:
+      insecure_skip_verify: true
+      ca_file: ./keys/server3.crt
+    scheme: https
+    static_configs:
+      - targets: ['111.111.111.113:9100']
+        labels:
+          group: "server"
+          nodename: "server3-instance"
+
+

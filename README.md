@@ -140,4 +140,6 @@ http://Server A IP:3100
 Dashboard import: https://grafana.com/grafana/dashboards/11074
 ```
 
+![dashboards](https://grafana.com/api/dashboards/11074/images/8427/image)
+
 

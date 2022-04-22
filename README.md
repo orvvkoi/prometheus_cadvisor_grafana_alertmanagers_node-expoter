@@ -136,6 +136,8 @@ docker-compose up -d
 
 ```
 http://Server A IP:3100
+
+Dashboard import: https://grafana.com/grafana/dashboards/11074
 ```
 
 

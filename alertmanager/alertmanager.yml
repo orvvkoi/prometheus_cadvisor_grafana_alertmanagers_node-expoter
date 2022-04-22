@@ -1,0 +1,60 @@
+global:
+  resolve_timeout: 1m
+  smtp_smarthost: 'smtp.gmail.com:587'
+  smtp_from: 'gmail@gmail.com'
+  smtp_auth_username: 'gmail@gmail.com'
+  smtp_auth_password: 'password'
+  slack_api_url: '<hooks slack url>'
+
+route:
+  group_wait: 30s
+  group_interval: 1m
+  repeat_interval: 1m
+  group_by: ['alertname']
+
+  receiver: "slack"
+
+  routes:
+    - match_re:
+        severity: critical|warning
+      receiver: "slack"
+      continue: true
+
+    - match:
+        severity: critical
+      receiver: "email"
+
+receivers:
+  - name: "slack"
+    slack_configs:
+      - channel: '#alerts'
+        color: '{{ template "slack.color" . }}'
+        title: '{{ template "slack.title" . }}'
+        text: '{{ template "slack.text" . }}'
+        send_resolved: true
+        actions:
+          - type: button
+            text: 'Grafana :grafana:'
+            url: '{{ (index .Alerts 0).Annotations.grafana_url }}'
+          - type: button
+            text: 'Runbook :green_book:'
+            url: '{{ (index .Alerts 0).Annotations.runbook_url }}'
+          - type: button
+            text: 'Query :mag:'
+            url: '{{ (index .Alerts 0).GeneratorURL }}'
+          - type: button
+            text: 'Dashboard :chart_with_upwards_trend:'
+            url: '{{ (index .Alerts 0).Annotations.dashboard_url }}'
+          - type: button
+            text: 'Silence :no_bell:'
+            url: '{{ template "__alert_silence_link" . }}'
+
+  - name: "email"
+    email_configs:
+      - to: "gmail@gmail.com"
+        headers:
+          From: "Prometheus"
+          Subject: "Monitor Alert"
+
+templates:
+  - './templates/slack-templates.tmpl'

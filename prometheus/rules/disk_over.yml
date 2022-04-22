@@ -1,0 +1,12 @@
+groups:
+  - name: Disk Space
+    rules:
+      - alert: DiskSpaceUsage
+        expr: (node_filesystem_size_bytes - node_filesystem_avail_bytes) / node_filesystem_size_bytes * 100 > 80
+        for: 1m
+        labels:
+          user: prometheus
+          severity: warning
+        annotations:
+          description: "Disk Space on Drive is used more than 90%\n mountpoint: {{ $labels.mountpoint }} value: {{ $value }}%"
+          username: "@tset"

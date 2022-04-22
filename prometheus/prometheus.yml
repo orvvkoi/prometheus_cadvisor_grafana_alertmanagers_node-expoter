@@ -27,14 +27,14 @@ scrape_configs:
   - job_name: 'job-server1'
     scrape_interval: 8s
     basic_auth:
-      username: "prometheus"
-      password: "6AzpMCb8wQaZ9N"
+      username: "prometheus" # node-exporter node-config.yml의 basic_auth_users id
+      password: "6AzpMCb8wQaZ9N" # node-exporter node-config.yml의 basic_auth_users password의 원본값
     tls_config:
       insecure_skip_verify: true
-      ca_file: ./keys/server1.crt
+      ca_file: ./keys/server1.crt # node-exporter node-config.yml의 cert_file 파일
     scheme: https
     static_configs:
-      - targets: ['111.111.111.111:9100']
+      - targets: ['111.111.111.111:9100'] # 대상 서버 IP:PORT
         labels:
           group: "server"
           nodename: "server1-instance"

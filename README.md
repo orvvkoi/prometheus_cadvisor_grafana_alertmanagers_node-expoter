@@ -148,6 +148,10 @@ docker-compose up -d
 
 ```
 http://Server A IP:3100
+admin/admin
+
+Data Sources -> Add data source -> http url-> http://prometheus:9090 -> Save & test
+
 
 Dashboard import: https://grafana.com/grafana/dashboards/11074
 ```

@@ -122,6 +122,12 @@ prometheus/keys/server3.crt
 # 경로: alertmanager/alertmanager.yml
 # 파일내 주석 참고
 # 상세 설정: https://prometheus.io/docs/alerting/latest/configuration/
+#
+# 수정대상: email, slack, discord
+#
+# discord는 alertmanager에서 webhook 작동 안함.
+# benjojo/alertmanager-discord로 연동.
+
 ```
 
 

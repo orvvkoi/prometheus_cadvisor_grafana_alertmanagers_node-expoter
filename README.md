@@ -72,6 +72,8 @@ curl --cacert server1.crt https://localhost:9100/metrics
 ```
 git clone https://github.com/orvvkoi/prometheus_cadvisor_grafana_alertmanagers_node-expoter.git
 cd prometheus_cadvisor_grafana_alertmanagers_node-expoter
+https://grafana.com/docs/grafana/latest/installation/docker/#migrate-to-v51-or-later
+sudo chown -R 472:472 grafana/
 ```
 
 

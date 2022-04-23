@@ -22,6 +22,11 @@ route:
       receiver: "slack"
       continue: true
 
+    - match_re:
+        severity: critical|warning
+      receiver: "discord_webhook"
+      continue: true
+
     - match:
         severity: critical
       receiver: "email"
@@ -50,6 +55,15 @@ receivers:
           - type: button
             text: 'Silence :no_bell:'
             url: '{{ template "__alert_silence_link" . }}'
+
+  - name: "webhook-discord"
+    webhook_configs:
+      - url: "https://discord.com/api/webhooks/" # discord webhook url
+        send_resolved: true
+
+  - name: 'discord_webhook'
+      webhook_configs:
+        - url: 'http://alertmanagers-discord:9094'
 
   - name: "email"
     email_configs:

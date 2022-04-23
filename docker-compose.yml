@@ -50,6 +50,8 @@ services:
     image: prom/alertmanager
     container_name: alertmanager
     user: root
+    links:
+      - alertmanagers-discord:alertmanagers-discord
     expose:
       - 9093
     volumes:
@@ -58,6 +60,15 @@ services:
     networks:
       - monitoring
     restart: always
+  alertmanagers-discord:
+    image: benjojo/alertmanager-discord
+    container_name: alertmanager-discord
+    environment:
+      DISCORD_WEBHOOK: "<DISCORD_WEBHOOK_URL>"
+    expose:
+      - 9094
+    networks:
+      - monitoring
 networks:
   monitoring:
     driver: bridge

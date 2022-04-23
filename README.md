@@ -127,7 +127,9 @@ prometheus/keys/server3.crt
 #
 # discord는 alertmanager에서 webhook 작동 안함.
 # benjojo/alertmanager-discord로 연동.
-
+#
+# 방법1: grafana 내장 alertmanager 사용하여 discord 연동. (자체 rule 생성 필요)
+# 방법2: alertmanager와 alertmanager-discord 연동
 ```
 
 

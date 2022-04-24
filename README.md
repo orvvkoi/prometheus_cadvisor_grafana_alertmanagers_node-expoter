@@ -113,7 +113,7 @@ prometheus/keys/server3.crt
     ca_file: ./keys/server1.crt # node-exporter node-config.yml의 cert_file 파일
   scheme: https
   static_configs:
-    - targets: ['111.111.111.111:9100'] # 대상 서버 IP:PORT or https
+    - targets: ['111.111.111.111:9100'] # 대상 서버 IP:PORT or domain
       labels:
         group: "server"
         nodename: "server1-instance"
